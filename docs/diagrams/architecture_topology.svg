@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#818cf8" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="600" fill="url(#bgGrad)" />
+
+  <!-- Header -->
+  <text x="500" y="45" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="700" fill="#f8fafc">Awesome Plugins for DeepSeek Harness (DSH)</text>
+  <text x="500" y="70" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" fill="#94a3b8">Modular Agent Ecosystem Topology &amp; Zero-Key Subscription Routing</text>
+
+  <!-- Core Host System: DSH -->
+  <g filter="url(#shadow)">
+    <rect x="50" y="100" width="900" height="120" rx="12" fill="url(#cardGrad)" stroke="#38bdf8" stroke-width="2" />
+    <rect x="50" y="100" width="900" height="32" rx="12" fill="#0284c7" />
+    <text x="70" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" fill="#ffffff">DeepSeek Harness Host (DSH Runtime) &amp; Cordis Profile Layer</text>
+    <text x="70" y="160" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="#cbd5e1">Profiles: ~/.dsh/profiles/desktop/cordis.patch.yml | Skills: ~/.dsh/skills/ | Plugins: ~/.dsh/plugins/</text>
+    <text x="70" y="185" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#94a3b8">Native Watcher: Auto-discovers ~/.dsh/skills and ~/.agents/skills with dynamic live-reload</text>
+  </g>
+
+  <!-- Plugin 1: Subscription Bridge -->
+  <g filter="url(#shadow)">
+    <rect x="50" y="260" width="430" height="300" rx="12" fill="url(#cardGrad)" stroke="#818cf8" stroke-width="2" />
+    <rect x="50" y="260" width="430" height="32" rx="12" fill="#4f46e5" />
+    <text x="70" y="282" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="#ffffff">Plugin 1: Subscription Bridge (Port 5288)</text>
+    <text x="70" y="320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#e2e8f0">• Protocol: OpenAI-Compatible /v1/chat/completions</text>
+    <text x="70" y="345" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#e2e8f0">• Authentication: 100% Zero-API-Key Direct Sessions</text>
+    
+    <rect x="70" y="365" width="390" height="40" rx="6" fill="#312e81" stroke="#6366f1" />
+    <text x="80" y="390" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#c7d2fe">Codex: ChatGPT Plus/Pro OAuth Session (~/.codex)</text>
+    
+    <rect x="70" y="415" width="390" height="40" rx="6" fill="#312e81" stroke="#6366f1" />
+    <text x="80" y="440" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#c7d2fe">Antigravity: Google DeepMind Subscription (~/.gemini)</text>
+    
+    <rect x="70" y="465" width="390" height="40" rx="6" fill="#312e81" stroke="#6366f1" />
+    <text x="80" y="490" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#c7d2fe">Claude &amp; Kimi: Pro Web Session / Device Token (~/.kimi-code)</text>
+
+    <text x="70" y="535" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#38bdf8">Result: Direct model calls with $0 API token cost</text>
+  </g>
+
+  <!-- Plugin 2: CLI Bridge -->
+  <g filter="url(#shadow)">
+    <rect x="520" y="260" width="430" height="300" rx="12" fill="url(#cardGrad)" stroke="#10b981" stroke-width="2" />
+    <rect x="520" y="260" width="430" height="32" rx="12" fill="#059669" />
+    <text x="540" y="282" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="#ffffff">Plugin 2: CLI Bridge (Cross-Agent Delegation)</text>
+    <text x="540" y="320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#e2e8f0">• Tools: cli_bridge, run_cursor, run_codex, run_opencode</text>
+    <text x="540" y="345" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#e2e8f0">• Execution: Non-interactive headless subprocess runner</text>
+    
+    <rect x="540" y="365" width="390" height="40" rx="6" fill="#064e3b" stroke="#10b981" />
+    <text x="550" y="390" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#a7f3d0">Cursor Agent: cursor-agent.cmd -p --sandbox disabled</text>
+    
+    <rect x="540" y="415" width="390" height="40" rx="6" fill="#064e3b" stroke="#10b981" />
+    <text x="550" y="440" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#a7f3d0">Codex CLI: codex.cmd exec --dangerously-bypass-sandbox</text>
+    
+    <rect x="540" y="465" width="390" height="40" rx="6" fill="#064e3b" stroke="#10b981" />
+    <text x="550" y="490" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#a7f3d0">Antigravity, OpenCode &amp; Kimi: Native execution CLI engines</text>
+
+    <text x="540" y="535" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#34d399">Result: Multi-agent council &amp; specialized task delegation</text>
+  </g>
+
+  <!-- Connectors -->
+  <line x1="265" y1="220" x2="265" y2="260" stroke="#818cf8" stroke-width="2" stroke-dasharray="4,4" />
+  <line x1="735" y1="220" x2="735" y2="260" stroke="#10b981" stroke-width="2" stroke-dasharray="4,4" />
+</svg>
