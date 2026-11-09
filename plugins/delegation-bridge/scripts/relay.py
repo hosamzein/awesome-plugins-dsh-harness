@@ -111,7 +111,7 @@ def run_relay(agent: str, brief: str, cd: Optional[str] = None, model: Optional[
     cmd = agent_cfg["cmd_builder"](exe, brief, model, read_only, session)
     stdin_bytes = brief.encode("utf-8") if agent_cfg["pipe_stdin"] else None
 
-    print(f"[{run_id}] Dispatching to {agent_key.upper()} in {cwd}...")
+    print(f"[{run_id}] Dispatching to {agent_key.upper()} in {cwd}...", file=sys.stderr)
     proc = subprocess.Popen(
         cmd,
         cwd=cwd,

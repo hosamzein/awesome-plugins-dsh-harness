@@ -237,6 +237,25 @@ pwsh .\scripts\test-all.ps1
 
 ---
 
+## 🧪 Verification & Test Suite
+
+All three plugins are continuously verified against live host runtimes (Cursor, Codex, Antigravity, OpenCode, Claude, Kimi).
+
+To run the automated end-to-end verification suite:
+
+```bash
+python scripts/run_comprehensive_tests.py
+```
+
+The suite performs real calls against:
+- **`subscription-bridge`**: Models catalog and live completion relays for Antigravity, Claude, and Codex with zero metered API keys.
+- **`cli-bridge`**: Engine presence validation (5 engines) and direct non-interactive CLI invocation.
+- **`delegation-bridge`**: Universal relay dispatch in Review-First read-only mode with diff tracking and structured JSON artifacts.
+
+View the latest certified test report: **[docs/tests/test_verification_report.md](docs/tests/test_verification_report.md)**.
+
+---
+
 ## 📄 License
 
 This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
