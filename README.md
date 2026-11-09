@@ -49,13 +49,155 @@
 
 ## 📐 Architecture Topology & Operational Flows
 
+### 2.1 Technical Architecture Diagram
+
+The high-resolution SVG diagram below illustrates the end-to-end integration topology between the DeepSeek Harness runtime, our 3 bridge plugins, host subscription sessions, and underlying coding CLI engines:
+
 <p align="center">
   <img src="docs/diagrams/architecture_topology.svg" alt="Architecture Topology" width="900"/>
 </p>
 
+#### Interactive Component Flowchart
+
+```mermaid
+flowchart TD
+    subgraph ClientLayer["🖥️ User & Orchestration Layer"]
+        User["Developer / Engineer"]
+        DSH["DeepSeek Harness (DSH Runtime)"]
+        CordisProfile["Cordis Desktop Profile<br/>(~/.dsh/profiles/desktop/cordis.patch.yml)"]
+        DSHSkills["DSH Skills Watcher<br/>(~/.dsh/skills/ & ~/.agents/skills/)"]
+    end
+
+    subgraph PluginsLayer["⚡ Awesome DSH Plugins"]
+        P1["Plugin 1: subscription-bridge<br/>(OpenAI-Compatible Gateway :5288)"]
+        P2["Plugin 2: cli-bridge<br/>(Instant Subprocess CLI Runner)"]
+        P3["Plugin 3: delegation-bridge<br/>(Review-First Delegation & Landing)"]
+    end
+
+    subgraph AuthSessionLayer["🔑 Host Subscription Auth (100% Zero-API-Key)"]
+        S_Codex["OpenAI Codex Session (~/.codex)"]
+        S_AGY["Antigravity Subscription (~/.gemini)"]
+        S_Claude["Claude Pro Session (~/.claude)"]
+        S_Kimi["Kimi VIP Session (~/.kimi-code)"]
+        S_Cursor["Cursor Pro License"]
+    end
+
+    subgraph EngineLayer["🤖 Target Local Coding Agents"]
+        E_Cursor["Cursor Agent (cursor-agent.cmd)"]
+        E_Codex["OpenAI Codex CLI (codex.cmd)"]
+        E_AGY["Google Antigravity (agy.exe)"]
+        E_OpenCode["OpenCode CLI (opencode.cmd)"]
+        E_Kimi["Moonshot Kimi (kimi.exe)"]
+    end
+
+    subgraph WorkspaceLayer["📁 Local Codebase & Review Guard"]
+        GitDiff["Git Diff & Worktree Tracker"]
+        ReviewGate["Review-First Inspection Gate"]
+        LocalRepo["Production Git Workspace"]
+    end
+
+    %% Connections
+    User -->|Prompts & Tasks| DSH
+    DSH --- CordisProfile
+    DSH --- DSHSkills
+    
+    CordisProfile -->|Provider: subscription-bridge| P1
+    DSHSkills -->|Tools: run_cursor, run_codex...| P2
+    DSHSkills -->|Tools: delegate_task, review_task...| P3
+
+    P1 -->|Chat & Completions SSE| AuthSessionLayer
+    AuthSessionLayer -->|Zero-Token Execution| EngineLayer
+
+    P2 -->|Synchronous Run| EngineLayer
+    P3 -->|Dispatch Relay Brief| EngineLayer
+
+    EngineLayer -->|Uncommitted Changes| WorkspaceLayer
+    WorkspaceLayer -->|Capture Diff & JSON| ReviewGate
+    ReviewGate -->|Approved Only| LocalRepo
+```
+
+---
+
+### 2.2 Operational Process Diagram: Review-First Delegation Lifecycle
+
+The dual-path operational flow diagram contrasts standard model queries with task delegation:
+
 <p align="center">
   <img src="docs/diagrams/operational_workflow.svg" alt="Operational Workflow" width="900"/>
 </p>
+
+#### Sequence 1: The 5-Step Review-First Delegation Lifecycle
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Dev as Developer / User
+    participant DSH as DeepSeek Harness
+    participant DB as Delegation Bridge (Plugin 3)
+    participant Engine as Target Agent (Codex/Cursor/AGY)
+    participant Git as Git Workspace Engine
+    participant Rev as Review Gate
+
+    Dev->>DSH: Prompt: "Refactor auth logic with Codex"
+    DSH->>DB: delegate_task(agent="codex", brief="...")
+    
+    rect rgb(28, 38, 56)
+        note over DB,Git: 1. Snapshot Pre-State
+        DB->>Git: git diff --stat (Snapshot before changes)
+    end
+
+    rect rgb(35, 45, 65)
+        note over DB,Engine: 2. Relay Dispatch (Isolated/Ephemeral)
+        DB->>Engine: Run with --ephemeral --sandbox / --mode plan
+        Engine->>Engine: Generate code & apply modifications
+        Engine-->>DB: Process stdout / stderr
+    end
+
+    rect rgb(28, 38, 56)
+        note over DB,Git: 3. Diff Capture & Isolation
+        DB->>Git: git diff (Capture post-execution modifications)
+        Git-->>DB: Modified files & hunk patch
+        DB->>DB: Generate result.json (ok, diff_summary, run_id)
+    end
+
+    rect rgb(45, 35, 60)
+        note over DB,Dev: 4. Review-First Validation
+        DB-->>DSH: Structured report with diff preview
+        DSH-->>Dev: Display diff summary to Developer
+        Dev->>Rev: Inspect changes: Accept or Reject?
+    end
+
+    alt Developer Approves
+        Dev->>DB: land_task(run_id, commit_msg)
+        DB->>Git: git add & git commit (Changes landed)
+        DB-->>Dev: Landed successfully ✅
+    else Developer Rejects
+        Dev->>DB: reject_task(run_id)
+        DB->>Git: git restore . (Working tree restored clean)
+        DB-->>Dev: Changes rolled back cleanly ❌
+    end
+```
+
+#### Sequence 2: Subscription Bridge Zero-Key Streaming Gateway Flow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant DSH as DeepSeek Harness
+    participant Gateway as Subscription Bridge (:5288)
+    participant HostAuth as Local Subscription Session
+    participant Model as AI Model via Subscription
+
+    DSH->>Gateway: POST /v1/chat/completions (model="codex/o3-mini", stream=true)
+    Gateway->>HostAuth: Check auth credentials (~/.codex, ~/.gemini, etc.)
+    HostAuth-->>Gateway: Active OAuth / Device Session Validated
+    Gateway->>Model: Forward prompt using local CLI runner / session
+    loop Streaming Response
+        Model-->>Gateway: Token chunks
+        Gateway-->>DSH: SSE data: {"choices": [{"delta": {"content": "..."}}]}
+    end
+    Gateway-->>DSH: data: [DONE] (Cost: $0.00 / Zero API Key)
+```
 
 ---
 
